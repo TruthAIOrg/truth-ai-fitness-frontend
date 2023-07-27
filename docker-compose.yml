@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  truth-ai:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: truth-ai
+    env_file:
+      - .env.local
+    ports:
+      - "3000:3000"
