@@ -1,7 +1,7 @@
 import { H2, H3, Text } from "@/components/typography"
 import { TrainingModelVideo } from "./training-model-video"
-import { Resource } from "@/lib/data-source/getResources"
 import { Fragment } from "react"
+import { Resource } from "@/lib/data-source/getResource"
 
 
 interface TrainingModelProps {

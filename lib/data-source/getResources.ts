@@ -1,3 +1,6 @@
+import { prisma } from "../db"
+
+
 export interface ResourceRaw {
     content: string
     id: number
@@ -19,21 +22,30 @@ interface TextList {
 }
 
 
-export type Resource = ReturnAsyncType<typeof getResourceList>[number]
 
-export async function getResourceList() {
-    const res = await fetch(process.env.BASE_URL + "/resources");
-    const data = await res.json() as ResourceRaw[];
-    return data.map((resource) => {
-        let content = [] as Content[];
-        try {
-            content = JSON.parse(resource.content);
-        } catch (e) {
-            console.log(e);
-        }
-        return {
-            ...resource,
-            content,
-        }
+
+
+export async function getResourceList({page, pageSize}: {page: number, pageSize: number}) {
+    const res =  prisma.tb_res_zh.findMany({
+        skip: (page - 1) * pageSize,
+        take: pageSize,
     })
+    return res as unknown as ResourceRaw[]
 }
+// export async function getResourceList({page, pageSize}: {page: number, pageSize: number}) {
+//     const res = await fetch(process.env.BASE_URL + "/resources" + `?page=${page}&perPage=${pageSize}`);
+
+//     const data = await res.json() as ResourceRaw[];
+//     return data.map((resource) => {
+//         let content = [] as Content[];
+//         try {
+//             content = JSON.parse(resource.content);
+//         } catch (e) {
+//             console.log(e);
+//         }
+//         return {
+//             ...resource,
+//             content,
+//         }
+//     })
+// }

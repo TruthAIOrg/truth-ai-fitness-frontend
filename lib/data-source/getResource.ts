@@ -1,16 +1,18 @@
-import { Resource, Content, ResourceRaw } from "./getResources";
+import { prisma } from "../db";
+import { Content, ResourceRaw } from "./getResources";
 
 export async function getResource(id: string) {
-    const res = await fetch(process.env.BASE_URL + "/resources/" + id);
-    const resource = await res.json() as ResourceRaw;
+    const res = await prisma.$queryRaw<ResourceRaw[]>`SELECT * FROM tb_res_zh WHERE model_id = ${id}`;
     let content = [] as Content[];
     try {
-        content = JSON.parse(resource.content);
+        content = JSON.parse(res[0].content!);
     } catch (e) {
         console.log(e);
     }
     return {
-        ...resource,
+        ...res[0],
         content,
     }
 }
+
+export type Resource = ReturnAsyncType<typeof getResource>

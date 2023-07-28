@@ -1,11 +1,12 @@
 "use client"
-import { Resource } from "@/lib/data-source/getResources"
 import { TrainingModelVideo } from "../training-model/training-model-video"
 import Link from "next/link"
 import { MuteText, Text } from "@/components/typography"
+import { Resource } from "@/lib/data-source/getResource"
+import { ResourceRaw } from "@/lib/data-source/getResources"
 
 interface HomeProps {
-    resources: Resource[]
+    resources: ResourceRaw[]
 }
 
 export default function Home({ resources }: HomeProps) {
