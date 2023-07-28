@@ -21,8 +21,9 @@ interface TextList {
 
 export type Resource = ReturnAsyncType<typeof getResourceList>[number]
 
-export async function getResourceList() {
-    const res = await fetch(process.env.BASE_URL + "/resources");
+export async function getResourceList({page, pageSize}: {page: number, pageSize: number}) {
+    const res = await fetch(process.env.BASE_URL + "/resources" + `?page=${page}&perPage=${pageSize}`);
+
     const data = await res.json() as ResourceRaw[];
     return data.map((resource) => {
         let content = [] as Content[];

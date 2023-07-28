@@ -26,13 +26,16 @@ export default function Navbar() {
             <div className="flex h-16 justify-between">
               <div className="flex px-2 lg:px-0">
                 <div className="flex flex-shrink-0 items-center">
-                  <Image
-                    width="0"
-                    height="0"
-                    className="h-8 w-auto hidden sm:block"
-                    src="/logo-no-background.svg"
-                    alt="Your Company"
-                  />
+                  <Link href="/" className='cursor-pointer'>
+                    <Image
+                      width="0"
+                      height="0"
+                      className="h-8 w-auto hidden sm:block"
+                      src="/logo-no-background.svg"
+                      alt="Your Company"
+                    />
+                  </Link>
+
                   {/* <Logo /> */}
                 </div>
 

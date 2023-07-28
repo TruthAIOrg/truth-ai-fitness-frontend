@@ -6,14 +6,14 @@ type Props = {
   params: { model_id: string }
 }
  
-export async function generateStaticParams() {
+// export async function generateStaticParams() {
  
-  const resources = await getResourceList()
+//   const resources = await getResourceList()
 
-  return resources.map((resource) => ({
-    params: { model_id: resource.model_id, },
-  }))
-}
+//   return resources.map((resource) => ({
+//     params: { model_id: resource.model_id, },
+//   }))
+// }
 
  
 

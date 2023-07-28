@@ -12,15 +12,13 @@ type Props = {
 
 export default async function PageRoot({ searchParams }: Props) {
   const page = searchParams?.page ? parseInt(searchParams.page as string) : 1
-  const page_size = searchParams?.pageSize ? parseInt(searchParams.page_size as string) : 10
-  const res = await getResourceList()
-  const resources  = res.slice((page - 1) * page_size, page * page_size)
+  const pageSize = searchParams?.pageSize ? parseInt(searchParams.page_size as string) : 10
+  const res = await getResourceList({page, pageSize})
 
   return (
     <>
-      <Home resources={resources} />
-      <Pagination total={res.length} pageSize={page_size} current={page} />
-
+      <Home resources={res} />
+      <Pagination total={res.length} pageSize={pageSize} current={page} />
     </>
   )
 }
