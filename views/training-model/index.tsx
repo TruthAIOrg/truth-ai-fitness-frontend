@@ -11,7 +11,7 @@ interface TrainingModelProps {
 
 export const TrainingModel = ({ resource }: TrainingModelProps) => {
     return <section>
-        <TrainingModelVideo src={resource.video_url} />
+        <TrainingModelVideo className="h-[200px] sm:h-[432px]" src={resource.video_url} />
         {
             resource.content.map((content, index) => {
                 return (
