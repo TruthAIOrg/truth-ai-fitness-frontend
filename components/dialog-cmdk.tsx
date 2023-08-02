@@ -21,7 +21,12 @@ import {
   CommandShortcut,
 } from "@/components/ui/command"
 import { useStore } from "zustand"
+import useSWR from "swr"
+import _ from "lodash"
 import { useBoundStore } from "@/hooks/store/useBoundStore"
+import { Resource } from "@/lib/data-source/getResource"
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json() as unknown as Resource[])
 
 export function DialogCmdk() {
 
@@ -29,6 +34,14 @@ export function DialogCmdk() {
     state.open,
     state.setOpen,
   ])
+  const [query, setQuery] = React.useState("")
+
+  const { data, error, isLoading } = useSWR(["/api/search", query], ([url, query]) => fetcher(url + "?query=" + query))
+
+  React.useEffect(() => {
+    console.log("data", data)
+  }, [data])
+
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && e.metaKey) {
@@ -43,7 +56,7 @@ export function DialogCmdk() {
   return (
     <>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput onValueChange={_.debounce(setQuery, 500)} placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
@@ -51,7 +64,16 @@ export function DialogCmdk() {
               <Calendar className="mr-2 h-4 w-4" />
               <span>Calendar</span>
             </CommandItem>
-            <CommandItem>
+            {
+              data && data?.map((resource) => {
+                return (
+                  <CommandItem key={resource.id}>
+                    <span>{resource.item_name}</span>
+                  </CommandItem>
+                )
+              })
+            }
+            {/* <CommandItem>
               <Smile className="mr-2 h-4 w-4" />
               <span>Search Emoji</span>
             </CommandItem>
@@ -76,7 +98,7 @@ export function DialogCmdk() {
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
               <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
+            </CommandItem> */}
           </CommandGroup>
         </CommandList>
       </CommandDialog>
